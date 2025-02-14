@@ -1,26 +1,15 @@
-import { useEffect, useState} from "react";
-import { ChartComponent } from "./components/components/Chart";
+import { useEffect, useState } from "react";
+import { DropdownComponent } from "./components/components/Dropdown";
 import "./App.css";
-import { DropdownComponentSample } from "./components/components/Dropdown_sample";
+import Sorting from "./components/components/Sorting";
 
 function App() {
-  const [array, setArray] = useState([]);
+  const [sampleSize, setSampleSize] = useState(100);
   const [sort, setSort] = useState(false);
-  const [iterator, setIterator] = useState(1);
-  const [sample, setSample] = useState(100);
-
-  useEffect(() => {
-    let A = Array(sample)
-      .fill(0)
-      .map(() => Math.random());
-    A = A.map((value, index) => ({ index, value }));
-
-    setArray(A);
-    setIterator(1);
-  }, [sample]);
+  const [algorithm, setAlgorithm] = useState("Bubble Sort")
 
   function insertionSort(A, i) {
-    let j,x
+    let j, x;
 
     j = i;
     while (j > 0 && A[j - 1] > A[j]) {
@@ -29,53 +18,43 @@ function App() {
       A[j - 1] = x;
       j--;
     }
-    return A
+    return A;
   }
 
   function bubbleSort(A, i) {
-    let j,x
+    let j, x;
 
-    for (j = i; j < A.length; j++) {
-      if (A[j-1] > A[j]) {
-        x = A[j]
-        A[j] = A[j-1]
-        A[j-1] = x
+    for (j = 1; j < A.length; j++) {
+      if (A[j - 1] > A[j]) {
+        x = A[j];
+        A[j] = A[j - 1];
+        A[j - 1] = x;
       }
     }
-    return A
+    return A;
   }
 
-  useEffect(() => {
-    
-    if (iterator === sample) setSort(false)
-    if (sort === false) {      
-      return;
-    }
-
-    let A = array.map((elem) => elem.value);
-    let i = iterator;
-
-    if (i < A.length) {
-
-      /* A = insertionSort(A, i) */
-      A = bubbleSort(A, i)
-
-      setTimeout(() => {
-        let sorted = A.map((value, index) => ({ index, value }));
-        setIterator(() => iterator + 1);
-        setArray(sorted);
-      }, 10);
-    }
-  }, [sort, iterator]);
+  const sortingAlgorithms = {
+    "Bubble Sort" : bubbleSort,
+    "Insertion Sort" : insertionSort
+  }
 
   function onSampleChange(value) {
-    setSample(() => value);
+    setSampleSize(value);
+  }
+
+  function onAlgorithmChange(newAlgorithm) {
+    setAlgorithm(newAlgorithm)
   }
 
   return (
     <>
-      <ChartComponent chartData={array}></ChartComponent>
-
+      <Sorting
+        setSort={setSort}
+        sort={sort}
+        sampleSize={sampleSize}
+        sortingAlgorithm={sortingAlgorithms[algorithm]}
+      ></Sorting>
       <button
         className="bg-white text-black border border-gray-300 px-4 py-2 rounded-lg"
         onClick={() => setSort((prev) => !prev)}
@@ -83,10 +62,17 @@ function App() {
         {sort ? "Stop" : "Start"}
       </button>
 
-      <DropdownComponentSample
-        sample={sample}
-        onSampleChange={() => onSampleChange}
-      ></DropdownComponentSample>
+      <DropdownComponent
+        value={sampleSize}
+        options={[100, 250, 500]}
+        handleChange={onSampleChange}
+      ></DropdownComponent>
+
+      <DropdownComponent
+        value={algorithm}
+        options={Object.keys(sortingAlgorithms)}
+        handleChange={onAlgorithmChange}
+      ></DropdownComponent>
     </>
   );
 }

@@ -13,20 +13,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export function DropdownComponentSample({sample, onSampleChange}) {
+export function DropdownComponent({value, options, handleChange}) {
   
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">Pick a sample size</Button>
+        <Button variant="outline">{typeof value === "number" ? "Pick a sample size" : "Pick an algorithm"}</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        {/* <DropdownMenuLabel>Panel Position</DropdownMenuLabel> */}
+        {/* {<DropdownMenuLabel>Sample Sizes</DropdownMenuLabel>} */}
         <DropdownMenuSeparator />
-        <DropdownMenuRadioGroup value={sample} onValueChange={onSampleChange(sample)}>
-          <DropdownMenuRadioItem value={100}>100</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value={250}>250</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value={500}>500</DropdownMenuRadioItem>
+        <DropdownMenuRadioGroup value={value} onValueChange={(value) => handleChange(value)}>
+            {options.map((option, index) => (
+                <DropdownMenuRadioItem key={index} value={option}>{option}</DropdownMenuRadioItem>)
+            )}
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>
