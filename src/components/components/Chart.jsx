@@ -44,10 +44,7 @@ export function ChartComponent({chartData}) {
               tick={false}
               
             />}
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
+            
             <Bar dataKey="value" fill="var(--color-desktop)" />
           </BarChart>
         </ChartContainer>
