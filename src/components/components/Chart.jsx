@@ -45,7 +45,7 @@ export function ChartComponent({chartData}) {
               
             />}
             
-            <Bar dataKey="value" fill="var(--color-desktop)" />
+            <Bar dataKey="value" fill="var(--color-desktop)" isAnimationActive={false}/>
           </BarChart>
         </ChartContainer>
       </CardContent>

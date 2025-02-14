@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import { ChartComponent } from "./components/components/Chart";
 import "./App.css";
 import { DropdownComponentSample } from "./components/components/Dropdown_sample";
@@ -19,31 +19,52 @@ function App() {
     setIterator(1);
   }, [sample]);
 
+  function insertionSort(A, i) {
+    let j,x
+
+    j = i;
+    while (j > 0 && A[j - 1] > A[j]) {
+      x = A[j];
+      A[j] = A[j - 1];
+      A[j - 1] = x;
+      j--;
+    }
+    return A
+  }
+
+  function bubbleSort(A, i) {
+    let j,x
+
+    for (j = i; j < A.length; j++) {
+      if (A[j-1] > A[j]) {
+        x = A[j]
+        A[j] = A[j-1]
+        A[j-1] = x
+      }
+    }
+    return A
+  }
+
   useEffect(() => {
-    if (sort === false) {
+    
+    if (iterator === sample) setSort(false)
+    if (sort === false) {      
       return;
     }
 
     let A = array.map((elem) => elem.value);
-
-    // sorting algorithm
-    let i, j, x;
-    i = iterator;
+    let i = iterator;
 
     if (i < A.length) {
-      j = i;
-      while (j > 0 && A[j - 1] > A[j]) {
-        x = A[j];
-        A[j] = A[j - 1];
-        A[j - 1] = x;
-        j--;
-      }
+
+      /* A = insertionSort(A, i) */
+      A = bubbleSort(A, i)
 
       setTimeout(() => {
         let sorted = A.map((value, index) => ({ index, value }));
         setIterator(() => iterator + 1);
         setArray(sorted);
-      }, 1);
+      }, 10);
     }
   }, [sort, iterator]);
 
