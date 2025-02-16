@@ -4,13 +4,16 @@ import { useState, useEffect } from "react";
 export default function Sorting({
   setSort,
   sort,
+  setIterator,
+  iterator,
+  setArray,
+  array,
   sampleSize,
   sortingAlgorithm,
 }) {
-  const [array, setArray] = useState([]);
-  const [iterator, setIterator] = useState(1);
 
-  useEffect(() => {
+  /* useEffect(() => {
+    console.log("re-rendering useEffect")
     let A = Array(sampleSize)
       .fill(0)
       .map(() => Math.random());
@@ -18,7 +21,8 @@ export default function Sorting({
 
     setArray(A);
     setIterator(1);
-  }, [sampleSize]);
+  }, [sampleSize, setArray, setIterator, setArray]); */
+
 
   useEffect(() => {
     if (iterator === sampleSize) setSort(false);
@@ -30,6 +34,7 @@ export default function Sorting({
     let i = iterator;
 
     if (i < A.length) {
+      
       A = sortingAlgorithm(A, i);
 
       setTimeout(() => {
@@ -38,11 +43,26 @@ export default function Sorting({
         setArray(sorted);
       }, 10);
     }
-  }, [sort, iterator, array, sampleSize, sortingAlgorithm, setSort]);
+  }, [
+    sort,
+    iterator,
+    array,
+    sampleSize,
+    sortingAlgorithm,
+    setSort,
+    setIterator,
+    setArray,
+  ]);
+
+  function formatAlgorithmName(name) {
+    return name
+      .replace(/([A-Z])/g, ' $1') // Insert space before capital letters
+      .replace(/^./, (str) => str.toUpperCase()); // Capitalize first letter
+  }
 
   return (
     <>
-      <ChartComponent chartData={array}></ChartComponent>
+      <ChartComponent chartData={array} sortingAlgorithm={formatAlgorithmName(sortingAlgorithm.name)}></ChartComponent>
     </>
   );
 }
