@@ -126,6 +126,7 @@ function App() {
         array={array}
         sampleSize={sampleSize}
         sortingAlgorithm={sortingAlgorithms[algorithm]}
+        algorithm={algorithm}
       ></Sorting>
 
       <button
@@ -147,12 +148,6 @@ function App() {
         handleChange={onAlgorithmChange}
       ></DropdownComponent>
 
-      {/* <button
-        className="bg-white text-black border border-gray-300 px-4 py-2 rounded-lg"
-        onClick={handleReset}
-      >
-        Apply Settings
-      </button> */}
     </>
   );
 }

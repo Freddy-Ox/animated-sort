@@ -10,6 +10,7 @@ export default function Sorting({
   array,
   sampleSize,
   sortingAlgorithm,
+  algorithm
 }) {
 
   /* useEffect(() => {
@@ -62,7 +63,7 @@ export default function Sorting({
 
   return (
     <>
-      <ChartComponent chartData={array} sortingAlgorithm={formatAlgorithmName(sortingAlgorithm.name)}></ChartComponent>
+      <ChartComponent chartData={array} sortingAlgorithm={algorithm}></ChartComponent>
     </>
   );
 }
