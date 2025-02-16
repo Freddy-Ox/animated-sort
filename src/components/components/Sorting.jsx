@@ -10,9 +10,8 @@ export default function Sorting({
   array,
   sampleSize,
   sortingAlgorithm,
-  algorithm
+  algorithm,
 }) {
-
   /* useEffect(() => {
     console.log("re-rendering useEffect")
     let A = Array(sampleSize)
@@ -24,18 +23,22 @@ export default function Sorting({
     setIterator(1);
   }, [sampleSize, setArray, setIterator, setArray]); */
 
-
   useEffect(() => {
-    if (iterator === sampleSize) setSort(false);
+    /* if (iterator === sampleSize) setSort(false); */
     if (sort === false) {
       return;
+    }
+
+    function isSorted(A) {
+        return A.every((val, i, arr) => i === 0 || arr[i - 1] <= val);
     }
 
     let A = array.map((elem) => elem.value);
     let i = iterator;
 
+    if(isSorted(A)) setSort(false)
+
     if (i < A.length) {
-      
       A = sortingAlgorithm(A, i);
 
       setTimeout(() => {
@@ -55,15 +58,12 @@ export default function Sorting({
     setArray,
   ]);
 
-  function formatAlgorithmName(name) {
-    return name
-      .replace(/([A-Z])/g, ' $1') // Insert space before capital letters
-      .replace(/^./, (str) => str.toUpperCase()); // Capitalize first letter
-  }
-
   return (
     <>
-      <ChartComponent chartData={array} sortingAlgorithm={algorithm}></ChartComponent>
+      <ChartComponent
+        chartData={array}
+        sortingAlgorithm={algorithm}
+      ></ChartComponent>
     </>
   );
 }
